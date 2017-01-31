@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<metainfo>
+    <schemaVersion>2.0</schemaVersion>
+    <services>
+        <service>
+
+            <name>AMBARI-19653</name>
+            <displayName>AMBARI-19653</displayName>
+            <comment>Simple ambari service for reproducing AMBARI-19653</comment>
+            <version>1.0</version>
+
+            <components>
+                <component>
+                    <name>AMBARI_19653_APACHE</name>
+                    <displayName>Apache webserver</displayName>
+                    <category>SLAVE</category>
+                    <cardinality>0+</cardinality>
+
+                    <commandScript>
+                        <script>scripts/apache_component_workaround.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>600</timeout>
+                    </commandScript>
+                </component>
+
+                <component>
+                    <name>AMBARI_19653_NGINX</name>
+                    <displayName>Nginx webserver</displayName>
+                    <category>SLAVE</category>
+                    <cardinality>0+</cardinality>
+
+                    <commandScript>
+                        <script>scripts/nginx_component_workaround.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>600</timeout>
+                    </commandScript>
+                </component>
+            </components>
+            <osSpecifics>
+                <osSpecific>
+                    <osFamily>ubuntu14</osFamily>
+                    <packages>
+                        <package>
+                            <name>apache2</name>
+                            <skipUpgrade>true</skipUpgrade>
+                            <condition>should_install_apache</condition>
+                        </package>
+                        <package>
+                            <name>nginx</name>
+                            <skipUpgrade>true</skipUpgrade>
+                            <condition>should_install_nginx</condition>
+                        </package>
+                    </packages>
+                </osSpecific>
+            </osSpecifics>
+            <restartRequiredAfterChange>true</restartRequiredAfterChange>
+        </service>
+    </services>
+</metainfo>
